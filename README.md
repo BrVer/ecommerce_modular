@@ -1,24 +1,38 @@
-# README
+Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Tables:
 
-Things you may want to cover:
+## Product
+- name
+- current_price
+- available_quantity
 
-* Ruby version
+## Order
+- has_many :order_lines
+- has_one :shipping_info
+- has_one :contact_info
+- has_one :payment
+- status
 
-* System dependencies
+## OrderLine
+- order_id
+- product_id
+- quantity
+- price_at_submit
 
-* Configuration
+## ShippingInfo
+- order_id
+- receiver_name
+- shipping_address
 
-* Database creation
+# ContactInfo
+- order_id
+- phone
+- email
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Payment
+- order_id
+- currency ??
+- amount
+- transaction_identifier
+- status
