@@ -30,7 +30,7 @@ Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way
 - phone
 - email
 
-## Payment
+## CreditCardPayment
 - order_id
 - currency ??
 - amount
