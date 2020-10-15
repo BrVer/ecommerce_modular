@@ -15,7 +15,9 @@ def truncate_database(connection)
   connection.execute('SET FOREIGN_KEY_CHECKS = 1;')
 end
 
-[Orders::Order, Inventory::Product, Payments::CreditCardPayment].each { |model|  truncate_database(model.connection)}
+[Orders::ApplicationRecord, Inventory::ApplicationRecord, Payments::ApplicationRecord].each do |model|
+  truncate_database(model.connection)
+end
 
 
 p1 = Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
