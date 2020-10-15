@@ -3,7 +3,8 @@ class CreateOrdersOrderLines < ActiveRecord::Migration[6.0]
     create_table :orders_order_lines do |t|
       t.references :orders_order, null: false, foreign_key: true
       t.references :inventory_product, null: false, foreign_key: true
-      t.integer :quantity
+      t.integer :quantity, null: false
+      t.boolean :reserved, null: false, default: false
       t.integer :price_at_submit
 
       t.timestamps
