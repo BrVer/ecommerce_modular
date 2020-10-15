@@ -4,25 +4,14 @@ module Orders
   class Order < ApplicationRecord
     include AASM
 
-    has_one :shipping_info,
-            class_name: 'Orders::ShippingInfo',
-            foreign_key: :orders_order_id,
-            inverse_of: :order,
-            dependent: :destroy
-    has_one :contact_info,
-            class_name: 'Orders::ContactInfo',
-            foreign_key: :orders_order_id,
-            inverse_of: :order,
-            dependent: :destroy
-    has_many :order_lines,
-             foreign_key: :orders_order_id,
-             class_name: 'Orders::OrderLine',
-             inverse_of: :order,
-             dependent: :destroy
+    has_one :shipping_info
+    has_one :contact_info
+    has_many :order_lines
 
     accepts_nested_attributes_for :order_lines
 
-    has_paper_trail only: %i[state]
+    has_paper_trail only: %i[state],
+                    versions: { class_name: '::Orders::Version' }
 
     aasm column: :state do
       state :placed, initial: true

@@ -2,7 +2,7 @@
 
 module Orders
   class ShippingInfo < ApplicationRecord
-    belongs_to :order, foreign_key: :orders_order_id, inverse_of: :shipping_info
+    belongs_to :order
 
     validates :receiver_name, :shipping_address, presence: true
   end

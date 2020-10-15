@@ -19,14 +19,14 @@ module Inventory
       attr_reader :reservations
 
       def process_reservation(reservation)
-        product = products.detect { |p| p.id == reservation[:inventory_product_id] }
+        product = products.detect { |p| p.id == reservation[:product_id] }
         product.lock!
         ReserveProductQuantity::Action.call(product, quantity_to_reserve: reservation[:quantity])
       end
 
       def products
         @products ||= ::Inventory::Product.where(
-          id: reservations.map { |p| p[:inventory_product_id] } # rubocop:disable Rails/Pluck
+          id: reservations.map { |p| p[:product_id] } # rubocop:disable Rails/Pluck
         )
       end
     end

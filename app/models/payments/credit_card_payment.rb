@@ -5,6 +5,7 @@ module Payments
     validates :amount, :state, presence: true
     validates :amount, numericality: { greater_than: 0 }
 
-    has_paper_trail only: %i[state]
+    has_paper_trail only: %i[state],
+                    versions: { class_name: '::Payments::Version' }
   end
 end

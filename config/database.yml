@@ -18,15 +18,42 @@ default: &default
   socket: /tmp/mysql.sock
 
 development:
-  <<: *default
-  database: ecommerce_modular_development
+  primary:
+    <<: *default
+    database: ecommerce_modular_development
+  inventory:
+    <<: *default
+    database: ecommerce_modular_inventory_development
+    migrations_paths: db/inventory_migrate
+  orders:
+    <<: *default
+    database: ecommerce_modular_orders_development
+    migrations_paths: db/orders_migrate
+  payments:
+    <<: *default
+    database: ecommerce_modular_payments_development
+    migrations_paths: db/payments_migrate
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: ecommerce_modular_test
+  primary:
+    <<: *default
+    database: ecommerce_modular_test
+  inventory:
+    <<: *default
+    database: ecommerce_modular_inventory_test
+    migrations_paths: db/inventory_migrate
+  orders:
+    <<: *default
+    database: ecommerce_modular_orders_test
+    migrations_paths: db/orders_migrate
+  payments:
+    <<: *default
+    database: ecommerce_modular_payments_test
+    migrations_paths: db/payments_migrate
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

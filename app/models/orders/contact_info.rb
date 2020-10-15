@@ -2,7 +2,7 @@
 
 module Orders
   class ContactInfo < ApplicationRecord
-    belongs_to :order, foreign_key: :orders_order_id, inverse_of: :contact_info
+    belongs_to :order
 
     validates :email, presence: true
   end

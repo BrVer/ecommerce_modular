@@ -8,7 +8,7 @@ module Orders
 
     def attributes
       order.attributes.merge(
-        order_lines: order.order_lines.map { _1.attributes.slice('inventory_product_id', 'quantity') }
+        order_lines: order.order_lines.map { _1.attributes.slice('product_id', 'quantity') }
       )
     end
 

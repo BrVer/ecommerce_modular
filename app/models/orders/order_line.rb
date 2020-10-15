@@ -2,10 +2,7 @@
 
 module Orders
   class OrderLine < ApplicationRecord
-    belongs_to :order,
-               foreign_key: :orders_order_id,
-               class_name: 'Orders::Order',
-               inverse_of: :order_lines
+    belongs_to :order
 
     validates :quantity, presence: true, numericality: { greater_than: 0 }
   end
