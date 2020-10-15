@@ -10,6 +10,7 @@ module Inventory
       end
 
       def call
+        # TODO: aggregate array of { product_id: 123, price: 45 }
         ::Inventory::Product.transaction { reservations.each(&method(:process_reservation)) }
       end
 

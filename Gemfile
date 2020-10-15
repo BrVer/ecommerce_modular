@@ -28,9 +28,10 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-gem 'aasm'
+gem 'aasm', '~> 5.1.1'
 gem 'dry-schema', '~> 1.5.5'
-gem 'paper_trail'
+gem 'dry-struct', '~> 1.3.0'
+gem 'paper_trail', '~> 11.0.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
