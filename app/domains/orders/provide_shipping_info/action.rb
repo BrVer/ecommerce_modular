@@ -15,7 +15,7 @@ module Orders
       end
 
       def call
-        authorise_action
+        authorize_action
         create_shipping_info!.tap do |_shipping_info|
           Publisher.broadcast('orders.shipping_info_provided', OrderPresenter.new(order).attributes)
         end
@@ -23,7 +23,7 @@ module Orders
 
       private
 
-      def authorise_action
+      def authorize_action
         raise InvalidOrderState unless order.placed?
         raise ShippingInfoAlreadyExist if order.shipping_info&.persisted?
       end
@@ -35,7 +35,7 @@ module Orders
       attr_reader :order_id, :shipping_address, :receiver_name
 
       def order
-        @order ||= ::Orders::Order.find(order_id)
+        @order ||= Order.find(order_id)
       end
     end
   end

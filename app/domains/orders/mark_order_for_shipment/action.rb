@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Orders
-  module ShipOrder
+  module MarkOrderForShipment
     class Action
       include ::Callable
 
@@ -10,9 +10,9 @@ module Orders
       end
 
       def call
-        order.ship
+        order.mark_for_shipment
         order.save!
-        Publisher.broadcast('orders.order_shipped', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('orders.marked_for_shipment', OrderPresenter.new(order).attributes)
         order
       end
 

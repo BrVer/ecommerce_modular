@@ -18,14 +18,10 @@ module Orders
 
       private
 
-      def reserve_products(products)
-        Inventory::ReserveProducts::Action.call(reservations: products)
-      end
-
       attr_reader :order_id
 
       def order
-        @order ||= ::Orders::Order.find(order_id)
+        @order ||= Order.find(order_id)
       end
     end
   end

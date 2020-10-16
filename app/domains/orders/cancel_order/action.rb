@@ -5,12 +5,14 @@ module Orders
     class Action
       include ::Callable
 
-      def initialize(order_id)
+      def initialize(order_id, reason:)
         @order_id = order_id
+        @reason = reason
       end
 
       def call
         order.cancel
+        order.cancel_reason = reason
         order.save!
         Publisher.broadcast('orders.order_cancelled', OrderPresenter.new(order).attributes)
         order
@@ -18,10 +20,10 @@ module Orders
 
       private
 
-      attr_reader :order_id
+      attr_reader :order_id, :reason
 
       def order
-        @order ||= ::Orders::Order.find(order_id)
+        @order ||= Order.find(order_id)
       end
     end
   end

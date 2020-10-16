@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Orders
-  module ShipOrder
+  module CancelOrderShipment
     class Action
       include ::Callable
 
@@ -10,9 +10,9 @@ module Orders
       end
 
       def call
-        order.ship
+        order.cancel_shipment
         order.save!
-        Publisher.broadcast('orders.order_shipped', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('orders.order_shipment_cancelled', OrderPresenter.new(order).attributes)
         order
       end
 

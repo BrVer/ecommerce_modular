@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_10_15_120301) do
     t.integer "reserved_quantity", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_products_on_name", unique: true
   end
 
   create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

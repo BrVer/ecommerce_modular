@@ -15,6 +15,7 @@ module Inventory
           available_quantity: product.available_quantity - quantity_to_reserve,
           reserved_quantity: product.reserved_quantity + quantity_to_reserve
         )
+        product
       end
 
       private

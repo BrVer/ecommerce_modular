@@ -10,7 +10,7 @@ module Orders
       end
 
       def call
-        ::Orders::Order.create!(state: :placed, order_lines_attributes: order_lines_params).tap do |order|
+        Order.create!(state: :placed, order_lines_attributes: order_lines_params).tap do |order|
           Publisher.broadcast('orders.order_placed', OrderPresenter.new(order).attributes)
         end
       end

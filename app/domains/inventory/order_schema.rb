@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Schemas
-  Product = Dry::Schema.Params do
+module Inventory
+  OrderSchema = Dry::Schema.Params do
     required(:id).filled(:integer)
     required(:order_lines).array(:hash) do
       required(:product_id).filled(:integer)

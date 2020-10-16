@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_10_15_120301) do
 
   create_table "orders", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "state", null: false
+    t.string "cancel_reason"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

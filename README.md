@@ -10,9 +10,6 @@ TO DO:
  
 This way even if something crashes in the middle of handling the event - event stays in the queue
 
-Also,
-USE RAILS 6 MULTI-DB SETUP!
-
 # Tables:
 
 ## Product

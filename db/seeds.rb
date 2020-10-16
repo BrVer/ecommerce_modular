@@ -29,8 +29,9 @@ order_2 = Orders::PlaceOrder::Action.call([{ quantity: 1, product_id: p1.id }, {
 
 Orders::ProvideContactInfo::Action.call(order_1.id, phone: '+375441111111', email: 'email1@gmail.com')
 Orders::ProvideShippingInfo::Action.call(order_1.id, shipping_address: 'address 1', receiver_name: 'receiver 1')
-Orders::SubmitOrder::Action.call(order_1.id)
 
 Orders::ProvideContactInfo::Action.call(order_2.id, phone: '+375442222222', email: 'email2@gmail.com')
 Orders::ProvideShippingInfo::Action.call(order_2.id, shipping_address: 'address 2', receiver_name: 'receiver 2')
-Orders::SubmitOrder::Action.call(order_2.id)
+
+# Orders::SubmitOrder::Action.call(order_1.id)
+# Orders::SubmitOrder::Action.call(order_2.id)

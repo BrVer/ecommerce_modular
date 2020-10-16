@@ -21,7 +21,7 @@ module Inventory
       attr_reader :product_id, :new_price
 
       def product
-        @product ||= ::Inventory::Product.find(product_id)
+        @product ||= Product.find(product_id)
       end
     end
   end

@@ -5,29 +5,39 @@ module Inventory
     class Action
       include ::Callable
 
-      def initialize(reservations:)
+      def initialize(order_id:, reservations:)
+        @order_id = order_id
         @reservations = reservations
       end
 
       def call
-        # TODO: aggregate array of { product_id: 123, price: 45 }
-        ::Inventory::Product.transaction { reservations.each(&method(:process_reservation)) }
+        if try_reserve_products # TODO: stupid, replace with RabbitMQ
+          Publisher.broadcast('inventory.reservation_success', order_id: order_id, reservations: reservations)
+        else
+          Publisher.broadcast('inventory.reservation_failure', order_id: order_id)
+        end
       end
 
       private
 
-      attr_reader :reservations
+      def try_reserve_products
+        Product.transaction { reservations.each(&method(:process_reservation)) }
+        true
+      rescue StandardError
+        false
+      end
+
+      attr_reader :reservations, :order_id
 
       def process_reservation(reservation)
         product = products.detect { |p| p.id == reservation[:product_id] }
         product.lock!
         ReserveProductQuantity::Action.call(product, quantity_to_reserve: reservation[:quantity])
+        reservation[:price] = product.current_price
       end
 
       def products
-        @products ||= ::Inventory::Product.where(
-          id: reservations.map { |p| p[:product_id] } # rubocop:disable Rails/Pluck
-        )
+        @products ||= Product.where(id: reservations.map { |p| p[:product_id] }) # rubocop:disable Rails/Pluck
       end
     end
   end

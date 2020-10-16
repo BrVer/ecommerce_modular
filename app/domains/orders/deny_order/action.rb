@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Orders
-  module ShipOrder
+  module DenyOrder
     class Action
       include ::Callable
 
@@ -10,9 +10,9 @@ module Orders
       end
 
       def call
-        order.ship
+        order.deny
         order.save!
-        Publisher.broadcast('orders.order_shipped', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('orders.order_denied', OrderPresenter.new(order).attributes)
         order
       end
 
