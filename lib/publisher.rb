@@ -4,7 +4,21 @@ module Publisher
   module_function
 
   def broadcast(name, payload = {})
-    Rails.logger.info("publishing #{name} event with following payload:\n#{payload}")
+    separator = '-' * 80
+    message = [
+      separator,
+      "publishing #{name} event with following payload:",
+      JSON.pretty_generate(payload),
+      separator
+    ].join("\n")
+
+    Rails.logger.info(message)
+    events_logger.info(message)
     ActiveSupport::Notifications.instrument(name, payload)
+  end
+
+  def events_logger
+    # TODO: get rid of class variable
+    @@events_logger ||= ActiveSupport::Logger.new("#{Rails.root}/log/my.log")
   end
 end

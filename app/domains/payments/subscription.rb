@@ -5,7 +5,7 @@ module Payments
     private
 
     def orders_order_accepted(order)
-      schema = OrderSchema.call(order)
+      schema = ::Payments::OrderSchema.call(order)
       raise InvalidContract.new(schema.errors.to_h) unless schema.success?
 
       ::Payments::CreatePayment::Action.call(schema.to_h)
