@@ -21,7 +21,7 @@ module Payments
       attr_reader :payment_id
 
       def payment
-        @payment ||= CreditCardPayment.find(payment_id)
+        @payment ||= ::Payments::CreditCardPayment.find(payment_id)
       end
     end
   end

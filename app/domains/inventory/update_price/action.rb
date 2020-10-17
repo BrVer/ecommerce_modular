@@ -5,8 +5,8 @@ module Inventory
     class Action
       include ::Callable
 
-      def initialize(product_id, new_price:)
-        @product_id = product_id
+      def initialize(product, new_price:)
+        @product = product
         @new_price = new_price
       end
 
@@ -18,11 +18,7 @@ module Inventory
 
       private
 
-      attr_reader :product_id, :new_price
-
-      def product
-        @product ||= Product.find(product_id)
-      end
+      attr_reader :product, :new_price
     end
   end
 end

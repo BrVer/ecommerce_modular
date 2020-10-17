@@ -2,7 +2,6 @@
 
 module Orders
   class Order < ApplicationRecord
-    CANCEL_REASONS = { expired: 'expired', payment_failed: 'payment_failed' }.freeze
 
     include AASM
 
@@ -15,11 +14,10 @@ module Orders
     has_paper_trail only: %i[state],
                     versions: { class_name: '::Orders::Version' }
 
-    validates :cancel_reason, inclusion: { in: CANCEL_REASONS.values }, if: -> { cancelled? } # TODO: use form objects
-
     aasm column: :state do
       state :placed, initial: true
-      state :submitted, :denied, :accepted, :cancelled, :ready_for_shipment, :shipment_cancelled, :shipped
+      state :submitted, :denied, :accepted, :cancelled,
+            :ready_for_shipment, :shipment_cancelled, :shipment_failed, :shipped
 
       event :submit do
         transitions from: :placed, to: :submitted
@@ -38,6 +36,9 @@ module Orders
       end
       event :cancel_shipment do
         transitions from: :ready_for_shipment, to: :shipment_cancelled
+      end
+      event :fail_shipment do
+        transitions from: :ready_for_shipment, to: :shipment_failed
       end
       event :ship do
         transitions from: :ready_for_shipment, to: :shipped

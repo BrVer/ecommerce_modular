@@ -3,16 +3,15 @@
 module Orders
   module CancelOrder
     class Action
+      # when payments.authorization_failed
       include ::Callable
 
-      def initialize(order_id, reason:)
-        @order_id = order_id
-        @reason = reason
+      def initialize(order)
+        @order = order
       end
 
       def call
         order.cancel
-        order.cancel_reason = reason
         order.save!
         Publisher.broadcast('orders.order_cancelled', OrderPresenter.new(order).attributes)
         order
@@ -20,11 +19,7 @@ module Orders
 
       private
 
-      attr_reader :order_id, :reason
-
-      def order
-        @order ||= Order.find(order_id)
-      end
+      attr_reader :order
     end
   end
 end

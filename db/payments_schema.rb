@@ -17,9 +17,11 @@ ActiveRecord::Schema.define(version: 2020_10_15_120301) do
     t.integer "amount", null: false
     t.string "state", null: false
     t.string "transaction_identifier"
+    t.datetime "authorization_expires_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["order_id"], name: "index_credit_card_payments_on_order_id", unique: true
+    t.index ["state", "authorization_expires_at"], name: "index_credit_card_payments_on_state_and_authorization_expires_at"
   end
 
   create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

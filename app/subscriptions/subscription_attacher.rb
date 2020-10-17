@@ -4,12 +4,15 @@ class SubscriptionAttacher
   SUBSCRIPTIONS = {
     'Payments::Subscription': %i[
       orders.order_accepted
-      orders.order_cancelled
+      orders.order_shipment_failed
       orders.order_shipped
     ],
     'Inventory::Subscription': %i[
       orders.order_submitted
       orders.order_cancelled
+      orders.orders_order_shipment_cancelled
+      orders.orders_order_shipment_failed
+      orders.order_shipped
     ],
     'Orders::Subscription': %i[
       inventory.reservation_success

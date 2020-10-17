@@ -12,7 +12,7 @@ module Inventory
 
       def call
         product.update!(
-          available_quantity: product.available_quantity + quantity_to_reserve,
+          available_quantity: product.available_quantity + quantity_to_release,
           reserved_quantity: product.reserved_quantity - quantity_to_release
         )
       end

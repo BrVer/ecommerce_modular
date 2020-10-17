@@ -3,10 +3,11 @@
 module Orders
   module DenyOrder
     class Action
+      # when inventory.reservation_failure
       include ::Callable
 
-      def initialize(order_id)
-        @order_id = order_id
+      def initialize(order)
+        @order = order
       end
 
       def call
@@ -18,11 +19,7 @@ module Orders
 
       private
 
-      attr_reader :order_id
-
-      def order
-        @order ||= Order.find(order_id)
-      end
+      attr_reader :order
     end
   end
 end

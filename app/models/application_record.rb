@@ -6,26 +6,66 @@ class ApplicationRecord < ActiveRecord::Base
   # TODO: remove
   class << self
     def prepare_db
-      [Orders::ApplicationRecord, Inventory::ApplicationRecord, Payments::ApplicationRecord].each do |model|
+      [::Orders::ApplicationRecord, ::Inventory::ApplicationRecord, ::Payments::ApplicationRecord].each do |model|
         truncate_database(model.connection)
       end
 
-      p1 = Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
-      p2 = Inventory::RegisterProduct::Action.call(name: 'p2', price: 23, available_quantity: 100)
-      _p3 = Inventory::RegisterProduct::Action.call(name: 'p3', price: 34, available_quantity: 100)
+      p1 = ::Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
+      p2 = ::Inventory::RegisterProduct::Action.call(name: 'p2', price: 23, available_quantity: 100)
+      _p3 = ::Inventory::RegisterProduct::Action.call(name: 'p3', price: 34, available_quantity: 100)
 
-      order1 = Orders::PlaceOrder::Action.call(
-        [{ quantity: 2, product_id: p1.id }, { quantity: 1, product_id: p2.id }]
-      )
-      order2 = Orders::PlaceOrder::Action.call(
-        [{ quantity: 1, product_id: p1.id }, { quantity: 999, product_id: p2.id }]
-      )
+      moderate_request = [{ product_id: p1.id, quantity: 2 }, { product_id: p2.id, quantity: 1 }]
+      greedy_request = [{ product_id: p1.id, quantity: 1 }, { product_id: p2.id, quantity: 999 }]
 
-      Orders::ProvideContactInfo::Action.call(order1.id, phone: '+375441111111', email: 'email1@gmail.com')
-      Orders::ProvideShippingInfo::Action.call(order1.id, shipping_address: 'address 1', receiver_name: 'receiver 1')
+      _order1_placed = ::Orders::PlaceOrder::Action.call(moderate_request)
 
-      Orders::ProvideContactInfo::Action.call(order2.id, phone: '+375442222222', email: 'email2@gmail.com')
-      Orders::ProvideShippingInfo::Action.call(order2.id, shipping_address: 'address 2', receiver_name: 'receiver 2')
+      _order2_denied = submit_order(greedy_request)
+
+      _order3_accepted = submit_order(moderate_request)
+
+      order4_payment_failed = submit_order(moderate_request)
+      ::Payments::FailAuthorization::Action.call(payment_id(order4_payment_failed))
+
+      order5_ready_for_shipment = submit_order(moderate_request)
+      authorize_order_payment(order5_ready_for_shipment)
+
+      order6_shipment_cancelled = submit_order(moderate_request)
+      authorize_order_payment(order6_shipment_cancelled)
+      ::Payments::ExpireAuthorization::Action.call(payment_id(order6_shipment_cancelled))
+
+      order7_shipment_failed = submit_order(moderate_request)
+      authorize_order_payment(order7_shipment_failed)
+      ::Orders::FailOrderShipment::Action.call(order7_shipment_failed.id)
+
+      order8_shipped = submit_order(moderate_request)
+      authorize_order_payment(order8_shipped)
+      ::Orders::ShipOrder::Action.call(order8_shipped.id)
+    end
+
+    def submit_order(params)
+      order = ::Orders::PlaceOrder::Action.call(params)
+      provide_info(order.id)
+      ::Orders::SubmitOrder::Action.call(order.id)
+      order.reload
+    end
+
+    def authorize_order_payment(order)
+      ::Payments::AuthorizePayment::Action.call(payment_id(order),
+                                                transaction_identifier: "tx_#{order.id}",
+                                                authorization_expires_at: Time.current + 5.days)
+    end
+
+    def provide_info(order_id)
+      ::Orders::ProvideContactInfo::Action.call(order_id,
+                                              phone: "+37544#{rand(10000000).to_s}",
+                                              email: "email#{order_id}@gmail.com")
+      ::Orders::ProvideShippingInfo::Action.call(order_id,
+                                               shipping_address: "address #{order_id}",
+                                               receiver_name: "receiver #{order_id}")
+    end
+
+    def payment_id(order)
+      ::Payments::CreditCardPayment.find_by(order_id: order.id).id
     end
 
     def truncate_database(connection)

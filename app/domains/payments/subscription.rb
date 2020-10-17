@@ -11,14 +11,18 @@ module Payments
       ::Payments::CreatePayment::Action.call(schema.to_h)
     end
 
-    def orders_order_cancelled(order)
-      payment = CreditCardPayment.find(order_id: order['id'])
-      ::Payments::ReleaseAuthorization::Action.call(payment)
+    def orders_order_shipment_failed(order)
+      ::Payments::ReleaseAuthorization::Action.call(find_payment_for_order(order))
     end
 
     def orders_order_shipped(order)
-      payment = CreditCardPayment.find(order_id: order['id'])
-      ::Payments::CaptureAuthorization::Action.call(payment)
+      ::Payments::CaptureAuthorization::Action.call(find_payment_for_order(order))
+    end
+
+    # ------- helper methods: -------#
+
+    def find_payment_for_order(order)
+      ::Payments::CreditCardPayment.find_by(order_id: order['id'])
     end
   end
 end

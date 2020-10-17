@@ -5,6 +5,9 @@ class CreateCreditCardPayments < ActiveRecord::Migration[6.0]
       t.integer :amount, null: false
       t.string :state, null: false
       t.string :transaction_identifier
+      t.datetime :authorization_expires_at
+
+      t.index  [:state, :authorization_expires_at]
 
       t.timestamps
     end

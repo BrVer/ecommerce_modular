@@ -19,6 +19,6 @@ module Publisher
 
   def events_logger
     # TODO: get rid of class variable
-    @@events_logger ||= ActiveSupport::Logger.new("#{Rails.root}/log/my.log")
+    @@events_logger ||= ActiveSupport::Logger.new("#{Rails.root}/log/events.log")
   end
 end

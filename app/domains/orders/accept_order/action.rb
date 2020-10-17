@@ -3,10 +3,11 @@
 module Orders
   module AcceptOrder
     class Action
+      # when inventory.reservation_success
       include ::Callable
 
-      def initialize(order_id, reservations:)
-        @order_id = order_id
+      def initialize(order, reservations:)
+        @order = order
         @reservations = reservations
       end
 
@@ -15,7 +16,6 @@ module Orders
           order.accept
           reservations.each(&method(:set_order_line_price))
           order.save!
-          # TODO: schedule a Sidekiq job to cancel the order with reason 'expired' in 20 min
         end
         Publisher.broadcast('orders.order_accepted', OrderPresenter.new(order).attributes)
         order
@@ -27,11 +27,7 @@ module Orders
         find_order_line(reservation).update!(price_at_submit: reservation[:price])
       end
 
-      attr_reader :order_id, :reservations
-
-      def order
-        @order ||= Order.find(order_id)
-      end
+      attr_reader :order, :reservations
 
       def order_lines
         @order_lines ||= order.order_lines

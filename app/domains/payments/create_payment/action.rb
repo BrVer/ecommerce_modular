@@ -20,7 +20,7 @@ module Payments
       attr_reader :order
 
       def create_payment!
-        CreditCardPayment.create!(order_id: order[:id], amount: calculate_amount, state: 'created')
+        ::Payments::CreditCardPayment.create!(order_id: order[:id], amount: calculate_amount, state: 'created')
       end
 
       def calculate_amount

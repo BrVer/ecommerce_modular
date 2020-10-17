@@ -2,13 +2,20 @@ Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way
 
 Using `ActiveSupport::Notifications` as EventBus
 
-TO DO: 
+**TO DO 1:** 
 - replace `ActiveSupport::Notifications` with RabbitMQ, 
 - use durable queues and messages
 - send one event to multiple queues (one queue per subscription, https://www.rabbitmq.com/getstarted.html, lesson 4 looks the most suitable)
 - use manual acknowledgement (http://rubybunny.info/articles/queues.html#message_acknowledgements)
  
 This way even if something crashes in the middle of handling the event - event stays in the queue
+
+**TO DO 2:** 
+
+sidekiq cron jobs, running each minute: 
+1) marks all the payments created more than 20 min ago
+and still not "authorized" as "authorization_failed"
+2) marks all the "authorized" payments with "authorization_expires_at" <= NOW as "authorization_expired"
 
 # Tables:
 

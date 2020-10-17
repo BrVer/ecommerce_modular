@@ -2,6 +2,7 @@
 
 module Inventory
   class Subscription < ::Subscription
+
     private
 
     def orders_order_submitted(params)
@@ -11,6 +12,27 @@ module Inventory
 
     def orders_order_cancelled(params)
       order = order_contract(params)
+      cancel_order_reservations(order)
+    end
+
+    def orders_order_shipment_cancelled(params)
+      order = order_contract(params)
+      cancel_order_reservations(order)
+    end
+
+    def orders_order_shipment_failed(params)
+      order = order_contract(params)
+      cancel_order_reservations(order)
+    end
+
+    def orders_order_shipped(params)
+      order = order_contract(params)
+      ::Inventory::DetachReservations::Action.call(reservations: order[:order_lines])
+    end
+
+    # ------- helper methods: -------#
+
+    def cancel_order_reservations(order)
       ::Inventory::CancelReservations::Action.call(reservations: order[:order_lines])
     end
 
