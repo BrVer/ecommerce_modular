@@ -12,7 +12,7 @@ module Payments
 
     aasm column: :state do
       state :created, initial: true
-      state :authorized, :authorization_failed, :authorization_released, :authorization_expired, :paid
+      state :authorized, :authorization_failed, :authorization_expired, :authorization_released, :paid
 
       event :authorize do
         transitions from: :created, to: :authorized
@@ -20,11 +20,11 @@ module Payments
       event :fail_authorization do
         transitions from: :created, to: :authorization_failed
       end
-      event :release_authorization do
-        transitions from: :authorized, to: :authorization_released
-      end
       event :expire_authorization do
         transitions from: :authorized, to: :authorization_expired
+      end
+      event :release_authorization do
+        transitions from: :authorized, to: :authorization_released
       end
       event :capture_authorization do
         transitions from: :authorized, to: :paid

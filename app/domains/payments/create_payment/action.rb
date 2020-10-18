@@ -24,7 +24,7 @@ module Payments
       end
 
       def calculate_amount
-        order[:order_lines].inject(0) { |sum, order_line| sum + order_line[:price_at_submit] }
+        order[:order_lines].inject(0) { |sum, order_line| sum + order_line[:price_at_submit] * order_line[:quantity] }
       end
     end
   end

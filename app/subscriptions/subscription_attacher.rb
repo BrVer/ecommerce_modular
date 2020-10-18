@@ -10,8 +10,8 @@ class SubscriptionAttacher
     'Inventory::Subscription': %i[
       orders.order_submitted
       orders.order_cancelled
-      orders.orders_order_shipment_cancelled
-      orders.orders_order_shipment_failed
+      orders.order_shipment_cancelled
+      orders.order_shipment_failed
       orders.order_shipped
     ],
     'Orders::Subscription': %i[
