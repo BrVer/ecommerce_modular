@@ -10,8 +10,8 @@ module Callable
   end
 
   module ClassMethods
-    def call(*args)
-      new(*args).call
+    def call(...)
+      new(...).call
     end
   end
 end
