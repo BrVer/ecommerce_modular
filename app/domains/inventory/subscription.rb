@@ -2,7 +2,6 @@
 
 module Inventory
   class Subscription < ::Subscription
-
     private
 
     def orders_order_submitted(params)
@@ -38,7 +37,7 @@ module Inventory
 
     def order_contract(order)
       schema = ::Inventory::OrderSchema.call(order)
-      raise InvalidContract.new(schema.errors.to_h) unless schema.success?
+      raise InvalidContract.new(schema.errors.to_h) unless schema.success? # rubocop:disable Style/RaiseArgs
 
       schema.to_h
     end

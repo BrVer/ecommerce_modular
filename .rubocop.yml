@@ -5,3 +5,13 @@ Style/Documentation:
   Enabled: false
 AllCops:
   NewCops: enable
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - app/models/orders/order.rb
+RSpec/DescribeClass:
+  Exclude:
+    - spec/acceptance/*
+RSpec/ExampleLength:
+  Exclude:
+    - spec/acceptance/*

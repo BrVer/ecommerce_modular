@@ -2,7 +2,6 @@
 
 module Orders
   class Order < ApplicationRecord
-
     include AASM
 
     has_one :shipping_info, dependent: :destroy

@@ -2,17 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe "order cancelled" do
-  let!(:product1) { register_product(name: 'product1', price: 12) }
-  let!(:product2) { register_product(name: 'product2', price: 23) }
+RSpec.describe 'order cancelled' do
+  let(:product1) { register_product(name: 'product1', price: 12) }
+  let(:product2) { register_product(name: 'product2', price: 23) }
   let!(:product3) { register_product(name: 'product3', price: 34) }
-  let!(:order) do
+  let(:order) do
     prepare_order([{ product_id: product1.id, quantity: 2 }, { product_id: product2.id, quantity: 1 }])
   end
 
   before do
     submit_order(order)
-    travel_to(Time.now + 21.minute) { Payments::Workers::CheckAbandonedPayments.new.perform }
+    travel_to(Time.zone.now + 21.minutes) { Payments::Workers::CheckAbandonedPayments.new.perform }
   end
 
   it 'works properly', :aggregate_failures do

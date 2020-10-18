@@ -6,7 +6,7 @@ module Payments
 
     def orders_order_accepted(order)
       schema = ::Payments::OrderSchema.call(order)
-      raise InvalidContract.new(schema.errors.to_h) unless schema.success?
+      raise InvalidContract.new(schema.errors.to_h) unless schema.success? # rubocop:disable Style/RaiseArgs
 
       ::Payments::CreatePayment::Action.call(schema.to_h)
     end

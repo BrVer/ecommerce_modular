@@ -14,7 +14,7 @@ module Payments
       private
 
       def payments_with_expired_authorization
-        Payments::CreditCardPayment.where(state: :authorized).where('authorization_expires_at < ?', Time.now)
+        Payments::CreditCardPayment.where(state: :authorized).where('authorization_expires_at < ?', Time.zone.now)
       end
     end
   end
