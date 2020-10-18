@@ -2,7 +2,7 @@ Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way
 
 Using `ActiveSupport::Notifications` as EventBus
 
-**TO DO 1:** 
+## TO DO:
 - replace `ActiveSupport::Notifications` with RabbitMQ, 
 - use durable queues and messages
 - send one event to multiple queues (one queue per subscription, https://www.rabbitmq.com/getstarted.html, lesson 4 looks the most suitable)
@@ -10,9 +10,7 @@ Using `ActiveSupport::Notifications` as EventBus
  
 This way even if something crashes in the middle of handling the event - event stays in the queue
 
-**TO DO 2:** 
-
-sidekiq cron jobs, running each minute: 
+## Sidekiq cron jobs, running each minute: 
 1) marks all the payments created more than 20 min ago
 and still not "authorized" as "authorization_failed"
 2) marks all the "authorized" payments with "authorization_expires_at" <= NOW as "authorization_expired"
@@ -31,6 +29,8 @@ and still not "authorized" as "authorization_failed"
 - has_one :payment
 - status
 
+State machine:
+![order state machine](docs/order.png "order state machine2")
 **placed** ->**submitted**
 then we try to reserve the required quantity,
 **if failure** - **cancelled**, we then display this to user with a "modify order" button, which is "place_order?retry_order_id=123",
@@ -56,6 +56,9 @@ e.g. he'll create a new order but FE will show him pre-filled fields from previo
 - email
 
 ## CreditCardPayment
+State machine:
+![credit_card_payment state machine](docs/credit_card_payment.png "credit_card_payment")
+
 - order_id
 - currency ??
 - amount
