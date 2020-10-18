@@ -1,0 +1,9 @@
+check_abandoned_payments:
+  cron: "* * * * *"
+  class: "Payments::Workers::CheckAbandonedPayments"
+  queue: default
+
+expire_authorizations:
+  cron: "* * * * *"
+  class: "Payments::Workers::ExpireAuthorizations"
+  queue: default

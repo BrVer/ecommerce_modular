@@ -5,8 +5,8 @@ module Payments
     class Action
       include ::Callable
 
-      def initialize(payment_id)
-        @payment_id = payment_id
+      def initialize(payment)
+        @payment = payment
       end
 
       def call
@@ -18,11 +18,7 @@ module Payments
 
       private
 
-      attr_reader :payment_id
-
-      def payment
-        @payment ||= ::Payments::CreditCardPayment.find(payment_id)
-      end
+      attr_reader :payment
     end
   end
 end

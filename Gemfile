@@ -32,6 +32,8 @@ gem 'aasm', '~> 5.1.1'
 gem 'dry-schema', '~> 1.5.5'
 gem 'dry-struct', '~> 1.3.0'
 gem 'paper_trail', '~> 11.0.0'
+gem 'sidekiq', '~> 6.1.2'
+gem 'sidekiq-cron', '~> 1.2.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

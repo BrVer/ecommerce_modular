@@ -11,6 +11,7 @@ module Payments
 
       def call
         # send a request to external system
+        # TODO: handle the case when capture fails for some reason (for example auth expired)
         payment.capture_authorization
         payment.save!
         Publisher.broadcast('payments.payment_paid', payment.attributes)
