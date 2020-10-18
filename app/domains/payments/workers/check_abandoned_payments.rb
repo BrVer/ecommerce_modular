@@ -14,8 +14,8 @@ module Payments
       private
 
       def abandoned_payments
-        Payments::CreditCardPayment.where(state: :created).where(
-          'created_at < ?', Time.zone.now - Rails.application.config.payment_time
+        ::Payments::CreditCardPayment.where(state: :created).where(
+          'created_at < ?', Time.zone.now - ::Payments::CreditCardPayment::PAYMENT_TIME
         )
       end
     end

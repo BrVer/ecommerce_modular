@@ -4,6 +4,8 @@ module Payments
   class CreditCardPayment < ApplicationRecord
     include AASM
 
+    PAYMENT_TIME = 20.minutes
+
     validates :amount, :state, presence: true
     validates :amount, numericality: { greater_than: 0 }
 
