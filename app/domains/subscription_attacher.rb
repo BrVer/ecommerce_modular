@@ -24,14 +24,9 @@ class SubscriptionAttacher
   }.freeze
 
   def attach_subscriptions
-    SUBSCRIPTIONS.each do |subscription, messages|
-      attach(subscription.to_s.constantize, messages)
+    SUBSCRIPTIONS.each do |subscription_name, messages|
+      subscription = subscription_name.to_s.constantize
+      messages.each { subscription.attach_to(_1) }
     end
-  end
-
-  private
-
-  def attach(subscription, messages)
-    messages.each { |message| subscription.attach_to(message) }
   end
 end

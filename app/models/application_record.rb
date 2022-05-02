@@ -6,9 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   # TODO: remove
   class << self
     def prepare_db
-      [::Orders::ApplicationRecord, ::Inventory::ApplicationRecord, ::Payments::ApplicationRecord].each do |model|
-        truncate_database(model.connection)
-      end
+      truncate_data
 
       p1 = ::Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
       p2 = ::Inventory::RegisterProduct::Action.call(name: 'p2', price: 23, available_quantity: 100)
@@ -80,14 +78,8 @@ class ApplicationRecord < ActiveRecord::Base
       ::Payments::CreditCardPayment.find_by(order_id: order.id)
     end
 
-    def truncate_database(connection)
-      connection.execute('SET FOREIGN_KEY_CHECKS = 0;')
-      connection.tables.each do |table|
-        next if %w[ar_internal_metadata schema_migrations].include? table
-
-        connection.truncate(table)
-      end
-      connection.execute('SET FOREIGN_KEY_CHECKS = 1;')
+    def truncate_data
+      ActiveRecord::Tasks::DatabaseTasks.truncate_all
     end
   end
 end

@@ -6,19 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-def truncate_database(connection)
-  connection.execute('SET FOREIGN_KEY_CHECKS = 0;')
-  connection.tables.each do |table|
-    next if %w[ar_internal_metadata schema_migrations].include? table
-    connection.truncate(table)
-  end
-  connection.execute('SET FOREIGN_KEY_CHECKS = 1;')
-end
 
-[Orders::ApplicationRecord, Inventory::ApplicationRecord, Payments::ApplicationRecord].each do |model|
-  truncate_database(model.connection)
-end
-
+ActiveRecord::Tasks::DatabaseTasks.truncate_all
 
 p1 = Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
 p2 = Inventory::RegisterProduct::Action.call(name: 'p2', price: 23, available_quantity: 100)

@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.4'
-# Use mysql as the database for Active Record
-gem 'mysql2', '>= 0.4.4'
+gem 'rails', '~> 6.1.5'
+# Use postgresql as the database for Active Record
+gem "pg", "~> 1.1"
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
+gem 'webpacker', '~> 5.4.3'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -29,11 +29,11 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'aasm', '~> 5.1.1'
-gem 'dry-schema', '~> 1.5.5'
-gem 'dry-struct', '~> 1.3.0'
-gem 'paper_trail', '~> 11.0.0'
-gem 'sidekiq', '~> 6.1.2'
-gem 'sidekiq-cron', '~> 1.2.0'
+gem 'dry-schema', '~> 1.9.1'
+gem 'dry-struct', '~> 1.4.0'
+gem 'paper_trail', '~> 12.3.0'
+gem 'sidekiq', '~> 6.4.2'
+gem 'sidekiq-cron', '~> 1.4.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -43,6 +43,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'dotenv-rails'
 end
 
 group :development do
