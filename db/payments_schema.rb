@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_15_120301) do
-
+ActiveRecord::Schema[7.0].define(version: 2020_10_15_120301) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,8 +20,8 @@ ActiveRecord::Schema.define(version: 2020_10_15_120301) do
     t.string "state", null: false
     t.string "transaction_identifier"
     t.datetime "authorization_expires_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_credit_card_payments_on_order_id", unique: true
     t.index ["state", "authorization_expires_at"], name: "index_ccp_on_state_and_authorization_expires_at"
   end
