@@ -7,11 +7,20 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :order, OrderType, description: "Find an order by ID" do
+      argument :id, ID
+    end
+
+    field :orders, [OrderType], description: "Find orders of a specific user" do
+      argument :user_id, ID
+    end
+
+    def orders(user_id:)
+      Orders::Order.where(user_id: user_id)
+    end
+
+    def order(id:)
+      Orders::Order.find(id)
     end
   end
 end

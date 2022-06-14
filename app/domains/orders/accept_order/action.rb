@@ -14,7 +14,7 @@ module Orders
       def call
         ActiveRecord::Base.transaction do
           order.accept
-          reservations.each(&method(:set_order_line_price))
+          reservations.each(&method(:mark_order_line_reserved))
           order.save!
         end
         Publisher.broadcast('orders.order_accepted', OrderPresenter.new(order).attributes)
@@ -23,8 +23,8 @@ module Orders
 
       private
 
-      def set_order_line_price(reservation)
-        find_order_line(reservation).update!(price_at_submit: reservation[:price])
+      def mark_order_line_reserved(reservation)
+        find_order_line(reservation).update!(price_at_submit: reservation[:price], reserved: true)
       end
 
       attr_reader :order, :reservations
