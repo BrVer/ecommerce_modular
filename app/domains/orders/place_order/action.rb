@@ -5,7 +5,8 @@ module Orders
     class Action
       include ::Callable
 
-      def initialize(order_lines_params)
+      def initialize(user_id, order_lines_params)
+        @user_id = user_id
         @order_lines_params = order_lines_params
       end
 
@@ -13,14 +14,14 @@ module Orders
       # this way we can implement the "AddOrderLine" action, which will add an order line to the order,
       # but only if the order is still "placed"
       def call
-        Order.create!(state: :placed, order_lines_attributes: order_lines_params).tap do |order|
+        Order.create!(user_id: user_id, state: :placed, order_lines_attributes: order_lines_params).tap do |order|
           Publisher.broadcast('orders.order_placed', OrderPresenter.new(order).attributes)
         end
       end
 
       private
 
-      attr_reader :order_lines_params
+      attr_reader :user_id, :order_lines_params
     end
   end
 end

@@ -15,7 +15,8 @@ ActiveRecord::Schema[7.0].define(version: 2020_10_15_120301) do
   enable_extension "plpgsql"
 
   create_table "credit_card_payments", force: :cascade do |t|
-    t.integer "order_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "order_id", null: false
     t.integer "amount", null: false
     t.string "state", null: false
     t.string "transaction_identifier"
@@ -24,6 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2020_10_15_120301) do
     t.datetime "updated_at", null: false
     t.index ["order_id"], name: "index_credit_card_payments_on_order_id", unique: true
     t.index ["state", "authorization_expires_at"], name: "index_ccp_on_state_and_authorization_expires_at"
+    t.index ["user_id"], name: "index_credit_card_payments_on_user_id"
   end
 
   create_table "versions", force: :cascade do |t|

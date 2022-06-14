@@ -8,6 +8,10 @@ class ApplicationRecord < ActiveRecord::Base
     def prepare_db
       truncate_data
 
+      User.establish_connection # hack to fix a bug after truncation
+      user_1 = User.create(email: 'user1@gmail.com', password: 'password1')
+      user_2 = User.create(email: 'user2@gmail.com', password: 'password2')
+
       p1 = ::Inventory::RegisterProduct::Action.call(name: 'p1', price: 12, available_quantity: 100)
       p2 = ::Inventory::RegisterProduct::Action.call(name: 'p2', price: 23, available_quantity: 100)
       _p3 = ::Inventory::RegisterProduct::Action.call(name: 'p3', price: 34, available_quantity: 100)
@@ -15,31 +19,31 @@ class ApplicationRecord < ActiveRecord::Base
       moderate_request = [{ product_id: p1.id, quantity: 2 }, { product_id: p2.id, quantity: 1 }]
       greedy_request = [{ product_id: p1.id, quantity: 1 }, { product_id: p2.id, quantity: 999 }]
 
-      _order1_placed = ::Orders::PlaceOrder::Action.call(moderate_request)
+      _order1_placed = ::Orders::PlaceOrder::Action.call(user_1.id, moderate_request)
 
-      _order2_denied = submit_order(greedy_request)
+      _order2_denied = submit_order(user_2.id, greedy_request)
 
-      _order3_placed = prepare_order(moderate_request)
+      _order3_placed = prepare_order(user_2.id, moderate_request)
 
-      _order4_payment_failed = submit_order(moderate_request)
+      _order4_payment_failed = submit_order(user_2.id, moderate_request)
 
-      order5_ready_for_shipment = submit_order(moderate_request)
-      authorize_order_payment(order5_ready_for_shipment)
+      order5_ready_for_shipment = submit_order(user_2.id, moderate_request)
+      authorize_order_payment(order5_ready_for_shipment) # TODO: check that user_id == order.user_id
 
-      order6_shipment_cancelled = submit_order(moderate_request)
-      authorize_order_payment(order6_shipment_cancelled, authorization_expires_in: 5.seconds)
+      order6_shipment_cancelled = submit_order(user_2.id, moderate_request)
+      authorize_order_payment(order6_shipment_cancelled, authorization_expires_in: 5.seconds) # TODO: check that user_id == order.user_id
 
-      order7_shipment_failed = submit_order(moderate_request)
-      authorize_order_payment(order7_shipment_failed)
+      order7_shipment_failed = submit_order(user_2.id, moderate_request)
+      authorize_order_payment(order7_shipment_failed) # TODO: check that user_id == order.user_id
       ::Orders::FailOrderShipment::Action.call(order7_shipment_failed.id)
 
-      order8_shipped = submit_order(moderate_request)
-      authorize_order_payment(order8_shipped)
+      order8_shipped = submit_order(user_2.id, moderate_request)
+      authorize_order_payment(order8_shipped) # TODO: check that user_id == order.user_id
       ::Orders::ShipOrder::Action.call(order8_shipped.id)
     end
 
     def submit_3rd_order
-      ::Orders::SubmitOrder::Action.call(3)
+      ::Orders::SubmitOrder::Action.call(3) # TODO: check that user_id == order.user_id
     end
 
     def run_cron_jobs
@@ -47,15 +51,15 @@ class ApplicationRecord < ActiveRecord::Base
       Payments::Workers::ExpireAuthorizations.new.perform
     end
 
-    def submit_order(params)
-      order = prepare_order(params)
-      ::Orders::SubmitOrder::Action.call(order.id)
+    def submit_order(user_id, params)
+      order = prepare_order(user_id, params)
+      ::Orders::SubmitOrder::Action.call(order.id) # TODO: check that user_id == order.user_id
       order.reload
     end
 
-    def prepare_order(params)
-      order = ::Orders::PlaceOrder::Action.call(params)
-      provide_info(order.id)
+    def prepare_order(user_id, params)
+      order = ::Orders::PlaceOrder::Action.call(user_id, params)
+      provide_info(order.id) # TODO: check that user_id == order.user_id
       order
     end
 
