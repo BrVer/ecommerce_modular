@@ -27,5 +27,9 @@ module EcommerceModular
     config.paths.add 'app/domains', eager_load: true
     config.paths.add 'app/subscriptions', eager_load: true
     config.paths.add 'lib', eager_load: true
+
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use config.session_store, config.session_options
   end
 end

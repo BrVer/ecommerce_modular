@@ -16,6 +16,10 @@ gem 'dry-struct', '~> 1.4.0'
 gem 'paper_trail', '~> 12.3.0'
 gem 'sidekiq', '~> 6.5.0'
 gem 'sidekiq-cron', '~> 1.5.1'
+gem 'rack-cors'
+gem 'devise'
+gem 'devise-jwt'
+gem 'fast_jsonapi' # TODO: use gem 'jsonapi-serializer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -29,6 +33,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'pry-byebug'
   gem 'aasm-diagram', require: false
 end
 
