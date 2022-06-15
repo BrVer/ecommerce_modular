@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Inventory
-  class Subscription < ::Subscription
+  class Subscription
     private
 
     def orders_order_submitted(params)

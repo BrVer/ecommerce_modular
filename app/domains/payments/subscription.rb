@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Payments
-  class Subscription < ::Subscription
+  class Subscription
     private
 
     def orders_order_accepted(order)

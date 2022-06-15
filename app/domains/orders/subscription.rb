@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Orders
-  class Subscription < ::Subscription
+  class Subscription
     private
 
     def inventory_reservation_failure(payload)
