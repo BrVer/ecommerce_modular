@@ -1,0 +1,20 @@
+payments:
+  orders:
+    - order_accepted
+    - order_shipment_failed
+    - order_shipped
+inventory:
+  orders:
+    - order_submitted
+    - order_cancelled
+    - order_shipment_cancelled
+    - order_shipment_failed
+    - order_shipped
+orders:
+  inventory:
+    - reservation_success
+    - reservation_failure
+  payments:
+    - authorization_failed
+    - authorization_expired
+    - payment_authorized
