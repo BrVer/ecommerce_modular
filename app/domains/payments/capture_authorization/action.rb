@@ -14,7 +14,7 @@ module Payments
         # TODO: handle the case when capture fails for some reason (for example auth expired)
         payment.capture_authorization
         payment.save!
-        Publisher.broadcast('payments.payment_paid', payment.attributes)
+        Publisher.broadcast('payment_paid', payment.attributes)
         payment
       end
 

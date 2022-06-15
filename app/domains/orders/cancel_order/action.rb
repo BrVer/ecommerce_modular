@@ -13,7 +13,7 @@ module Orders
       def call
         order.cancel
         order.save!
-        Publisher.broadcast('orders.order_cancelled', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('order_cancelled', OrderPresenter.new(order).attributes)
         order
       end
 

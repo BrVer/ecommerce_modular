@@ -17,7 +17,7 @@ module Orders
       def call
         authorize_action
         create_shipping_info!.tap do |_shipping_info|
-          Publisher.broadcast('orders.shipping_info_provided', OrderPresenter.new(order).attributes)
+          Publisher.broadcast('shipping_info_provided', OrderPresenter.new(order).attributes)
         end
       end
 

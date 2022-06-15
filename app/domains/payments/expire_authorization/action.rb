@@ -12,7 +12,7 @@ module Payments
       def call
         payment.expire_authorization
         payment.save!
-        Publisher.broadcast('payments.authorization_expired', payment.attributes)
+        Publisher.broadcast('authorization_expired', payment.attributes)
         payment
       end
 

@@ -15,7 +15,7 @@ module Orders
       # but only if the order is still "placed"
       def call
         Order.create!(user_id: user_id, state: :placed, order_lines_attributes: order_lines_params).tap do |order|
-          Publisher.broadcast('orders.order_placed', OrderPresenter.new(order).attributes)
+          Publisher.broadcast('order_placed', OrderPresenter.new(order).attributes)
         end
       end
 

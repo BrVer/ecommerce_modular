@@ -12,7 +12,7 @@ module Orders
       def call
         order.fail_shipment
         order.save!
-        Publisher.broadcast('orders.order_shipment_failed', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('order_shipment_failed', OrderPresenter.new(order).attributes)
         order
       end
 

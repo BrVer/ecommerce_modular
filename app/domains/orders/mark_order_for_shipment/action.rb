@@ -13,7 +13,7 @@ module Orders
       def call
         order.mark_for_shipment
         order.save!
-        Publisher.broadcast('orders.marked_for_shipment', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('marked_for_shipment', OrderPresenter.new(order).attributes)
         order
       end
 

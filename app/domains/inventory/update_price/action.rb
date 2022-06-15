@@ -12,7 +12,7 @@ module Inventory
 
       def call
         product.update!(price: new_price).tap do |p|
-          Publisher.broadcast('inventory.price_updated', p.attributes)
+          Publisher.broadcast('price_updated', p.attributes)
         end
       end
 

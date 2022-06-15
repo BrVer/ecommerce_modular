@@ -17,7 +17,7 @@ module Orders
       def call
         authorize_action
         create_contact_info!.tap do |_contact_info|
-          Publisher.broadcast('orders.contact_info_provided', OrderPresenter.new(order).attributes)
+          Publisher.broadcast('contact_info_provided', OrderPresenter.new(order).attributes)
         end
       end
 

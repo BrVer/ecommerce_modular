@@ -13,7 +13,7 @@ module Payments
         # send a request to external system
         payment.release_authorization
         payment.save!
-        Publisher.broadcast('payments.authorization_released', payment.attributes)
+        Publisher.broadcast('authorization_released', payment.attributes)
         payment
       end
 

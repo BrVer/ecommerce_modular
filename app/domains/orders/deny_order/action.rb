@@ -13,7 +13,7 @@ module Orders
       def call
         order.deny
         order.save!
-        Publisher.broadcast('orders.order_denied', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('order_denied', OrderPresenter.new(order).attributes)
         order
       end
 

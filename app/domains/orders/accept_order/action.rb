@@ -17,7 +17,7 @@ module Orders
           reservations.each(&method(:mark_order_line_reserved))
           order.save!
         end
-        Publisher.broadcast('orders.order_accepted', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('order_accepted', OrderPresenter.new(order).attributes)
         order
       end
 

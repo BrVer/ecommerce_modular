@@ -16,7 +16,7 @@ module Payments
         payment.transaction_identifier = transaction_identifier
         payment.authorization_expires_at = authorization_expires_at
         payment.save!
-        Publisher.broadcast('payments.payment_authorized', payment.attributes)
+        Publisher.broadcast('payment_authorized', payment.attributes)
         payment
       end
 

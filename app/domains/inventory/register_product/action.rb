@@ -17,7 +17,7 @@ module Inventory
         raise ProductAlreadyExist if Product.exists?(name: name) # TODO: try to save, catch exception, throw our one
 
         create_product!.tap do |product|
-          Publisher.broadcast('inventory.product_registered', product.attributes)
+          Publisher.broadcast('product_registered', product.attributes)
         end
       end
 

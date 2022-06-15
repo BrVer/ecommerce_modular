@@ -3,18 +3,18 @@
 module Publisher
   module_function
 
-  def broadcast(name, payload = {})
+  def broadcast(domain, event, payload = {})
     separator = '-' * 80
     message = [
       separator,
-      "publishing #{name} event with following payload:",
+      "publishing #{domain}.#{event} event with following payload:",
       JSON.pretty_generate(payload),
       separator
     ].join("\n")
 
     Rails.logger.info(message)
     events_logger.info(message)
-    ActiveSupport::Notifications.instrument(name, payload)
+    ActiveSupport::Notifications.instrument("#{domain}.#{event}", payload)
   end
 
   def events_logger

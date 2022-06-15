@@ -12,7 +12,7 @@ module Orders
       def call
         order.submit
         order.save!
-        Publisher.broadcast('orders.order_submitted', OrderPresenter.new(order).attributes)
+        Publisher.broadcast('order_submitted', OrderPresenter.new(order).attributes)
         order
       end
 

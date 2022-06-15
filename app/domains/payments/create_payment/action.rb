@@ -11,7 +11,7 @@ module Payments
 
       def call
         create_payment!.tap do |payment|
-          Publisher.broadcast('payments.payment_created', payment.attributes)
+          Publisher.broadcast('payment_created', payment.attributes)
         end
       end
 

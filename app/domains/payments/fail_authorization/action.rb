@@ -12,7 +12,7 @@ module Payments
       def call
         payment.fail_authorization
         payment.save!
-        Publisher.broadcast('payments.authorization_failed', payment.attributes)
+        Publisher.broadcast('authorization_failed', payment.attributes)
         payment
       end
 
