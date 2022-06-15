@@ -5,6 +5,34 @@ class ApplicationRecord < ActiveRecord::Base
 
   # TODO: remove
   class << self
+    def test_graphql
+      query_string = "{
+ orders(userId: 2) {
+    id
+    state
+    shippingInfo {
+      receiverName
+      shippingAddress
+    }
+    contactInfo {
+      email
+      phone
+    }
+    orderLines {
+      id
+      product {
+        id
+        name
+      }
+      quantity
+      reserved
+      priceAtSubmit
+    }
+  }
+}"
+      EcommerceModularSchema.execute(query_string).to_h['data']['orders']
+    end
+
     def prepare_db
       truncate_data
 

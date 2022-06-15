@@ -9,7 +9,7 @@ module Types
     field :price_at_submit, Integer
 
     def product
-      Inventory::Product.find(object.product_id)
+      dataloader.with(Sources::ActiveRecordObject, Inventory::Product).load(object.product_id)
     end
   end
 end
