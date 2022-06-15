@@ -4,8 +4,8 @@ def register_product(name:, price:, available_quantity: 100)
   ::Inventory::RegisterProduct::Action.call(name: name, price: price, available_quantity: available_quantity)
 end
 
-def place_order(params)
-  ::Orders::PlaceOrder::Action.call(params)
+def place_order(user_id, params)
+  ::Orders::PlaceOrder::Action.call(user_id, params)
 end
 
 def provide_info(order)
@@ -18,8 +18,8 @@ def provide_info(order)
   order
 end
 
-def prepare_order(params)
-  order = place_order(params)
+def prepare_order(user_id, params)
+  order = place_order(user_id, params)
   provide_info(order)
 end
 

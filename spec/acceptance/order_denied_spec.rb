@@ -7,7 +7,7 @@ RSpec.describe 'order denied' do
   let(:product2) { register_product(name: 'product2', price: 23) }
   let!(:product3) { register_product(name: 'product3', price: 34) }
   let(:order) do
-    prepare_order([{ product_id: product1.id, quantity: 1 }, { product_id: product2.id, quantity: 999 }])
+    prepare_order(1, [{ product_id: product1.id, quantity: 1 }, { product_id: product2.id, quantity: 999 }])
   end
 
   before do

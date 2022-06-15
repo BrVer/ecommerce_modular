@@ -7,7 +7,7 @@ RSpec.describe 'order accepted' do
   let(:product2) { register_product(name: 'product2', price: 23) }
   let!(:product3) { register_product(name: 'product3', price: 34) }
   let(:order) do
-    place_order([{ product_id: product1.id, quantity: 2 }, { product_id: product2.id, quantity: 1 }])
+    place_order(1, [{ product_id: product1.id, quantity: 2 }, { product_id: product2.id, quantity: 1 }])
   end
   let(:phone) { '+375447633556' }
   let(:email) { 'email1@gmail.com' }
