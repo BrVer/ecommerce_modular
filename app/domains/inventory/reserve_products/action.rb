@@ -12,9 +12,9 @@ module Inventory
 
       def call
         if try_reserve_products # TODO: stupid, replace with RabbitMQ
-          Publisher.broadcast('reservation_success', order_id: order_id, reservations: reservations)
+          Publisher.broadcast('reservation_success', 'order_id' => order_id, 'reservations'=> reservations)
         else
-          Publisher.broadcast('reservation_failure', order_id: order_id)
+          Publisher.broadcast('reservation_failure', 'order_id' => order_id)
         end
       end
 

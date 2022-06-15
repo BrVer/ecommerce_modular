@@ -7,7 +7,7 @@ module Orders
     end
 
     def attributes
-      order.attributes.merge(order_lines: order.order_lines.map(&:attributes))
+      order.attributes.merge('order_lines' => order.order_lines.map(&:attributes))
     end
 
     private

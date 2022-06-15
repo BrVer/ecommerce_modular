@@ -5,12 +5,12 @@ module Orders
     private
 
     def inventory_reservation_failure(payload)
-      ::Orders::DenyOrder::Action.call(order(payload[:order_id]))
+      ::Orders::DenyOrder::Action.call(order(payload['order_id']))
     end
 
     def inventory_reservation_success(payload)
       # TODO: check reservations contract
-      ::Orders::AcceptOrder::Action.call(order(payload[:order_id]), reservations: payload[:reservations])
+      ::Orders::AcceptOrder::Action.call(order(payload['order_id']), reservations: payload['reservations'])
     end
 
     def payments_authorization_failed(payment)
