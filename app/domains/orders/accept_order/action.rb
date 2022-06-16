@@ -24,7 +24,7 @@ module Orders
       private
 
       def mark_order_line_reserved(reservation)
-        find_order_line(reservation).update!(price_at_submit: reservation[:price], reserved: true)
+        find_order_line(reservation).update!(price_at_submit: reservation['price'], reserved: true)
       end
 
       attr_reader :order, :reservations
@@ -34,7 +34,7 @@ module Orders
       end
 
       def find_order_line(reservation)
-        order_lines.detect { |order_line| order_line.product_id == reservation[:product_id] }
+        order_lines.detect { |order_line| order_line.product_id == reservation['product_id'] }
       end
     end
   end
