@@ -4,8 +4,8 @@ module Orders
   module Publisher
     module_function
 
-    def broadcast(event, payload = {})
-      ::Publisher.broadcast('orders', event, payload)
+    def broadcast(event, payload, partition_key: nil)
+      ::Publisher.broadcast('orders', event, payload: payload, partition_key: partition_key)
     end
   end
 end

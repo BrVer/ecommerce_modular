@@ -4,8 +4,8 @@ module Payments
   module Publisher
     module_function
 
-    def broadcast(event, payload = {})
-      ::Publisher.broadcast('payments', event, payload)
+    def broadcast(event, payload = {}, partition_key: nil)
+      ::Publisher.broadcast('payments', event, payload: payload, partition_key: partition_key)
     end
   end
 end

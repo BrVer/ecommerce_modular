@@ -11,10 +11,14 @@ module Inventory
       end
 
       def call
+        # TODO: problem is, partition_key = order_id doesn't make sense as in other inventory events we use product.id
+        # solution is to have 2 topics: inventory_reservations && inventory_products
         if try_reserve_products # TODO: stupid, replace with RabbitMQ
-          Publisher.broadcast('reservation_success', 'order_id' => order_id, 'reservations'=> reservations)
+          Publisher.broadcast('reservation_success',
+                              { 'order_id' => order_id, 'reservations' => reservations },
+                              partition_key: order_id)
         else
-          Publisher.broadcast('reservation_failure', 'order_id' => order_id)
+          Publisher.broadcast('reservation_failure', { 'order_id' => order_id }, partition_key: order_id)
         end
       end
 
