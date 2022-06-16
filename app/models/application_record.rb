@@ -99,11 +99,35 @@ class ApplicationRecord < ActiveRecord::Base
 
     def provide_info(order_id)
       ::Orders::ProvideContactInfo::Action.call(order_id,
-                                              phone: "+37544#{rand(10000000).to_s}",
-                                              email: "email#{order_id}@gmail.com")
+                                                phone: "+37544#{rand(10000000).to_s}",
+                                                email: "email#{order_id}@gmail.com")
       ::Orders::ProvideShippingInfo::Action.call(order_id,
-                                               shipping_address: "address #{order_id}",
-                                               receiver_name: "receiver #{order_id}")
+                                                 shipping_address: "address #{order_id}",
+                                                 receiver_name: "receiver #{order_id}")
+    end
+
+    def kafka_topics
+      %w(orders payments inventory) # TODO: constant
+    end
+
+    def kafka_client
+      @kafka_client ||= Kafka.new(['kafka://127.0.0.1:9092'])
+    end
+
+    def reset_kafka_topics
+      delete_kafka_topics
+      create_kafka_topics
+    end
+
+    def delete_kafka_topics
+      kafka_topics.each { kafka_client.delete_topic(_1) }
+    end
+
+    def create_kafka_topics
+      kafka_topics.each do |topic_name|
+        kafka_client.create_topic(topic_name,
+                                  num_partitions: 3, replication_factor: 1, config: { 'retention.ms' => 2_419_200_000 })
+      end
     end
 
     def payment(order)
