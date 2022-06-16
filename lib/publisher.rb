@@ -5,8 +5,12 @@ module Publisher
 
   def broadcast(domain, event, payload:, partition_key: nil)
     log_event(domain, event, payload: payload)
-    send_to_kafka(domain, event, payload: payload, partition_key: partition_key)
-    send_activesupport_notification(domain, event, payload: payload)
+    case ENV.fetch('COMMUNICATION_BACKEND')
+    when 'kafka'
+      send_to_kafka(domain, event, payload: payload, partition_key: partition_key)
+    when 'active_support'
+      send_activesupport_notification(domain, event, payload: payload)
+    end
   end
 
   def log_event(domain, event, payload:)

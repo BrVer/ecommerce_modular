@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.config.after_initialize do
-  subscriptions_file = 'config/subscriptions.yml'
 
-  if File.exist?(subscriptions_file)
-    config = YAML.load_file(subscriptions_file)
-
-    #TODO: only if not in Kafka mode!
-    SubscriptionAttacher.new.attach_activesupport_subscriptions(config)
+  if ENV.fetch('COMMUNICATION_BACKEND') == 'active_support'
+    config = YAML.load_file('config/subscriptions.yml')
+    ActiveSupportSubscriptionAttacher.new(config).attach_subscriptions
   end
 end

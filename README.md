@@ -1,14 +1,22 @@
-Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way
+**Attempt to rewrite https://github.com/aniarosner/payments-ddd in a modular way**
 
-Using `ActiveSupport::Notifications` as EventBus
+Initially started using `ActiveSupport::Notifications` as EventBus, 
+later was replaced by Kafka, which allows to move domains to separate processes.
 
-## TO DO:
-- replace `ActiveSupport::Notifications` with RabbitMQ, 
-- use durable queues and messages
-- send one event to multiple queues (one queue per subscription, https://www.rabbitmq.com/getstarted.html, lesson 4 looks the most suitable)
-- use manual acknowledgement (http://rubybunny.info/articles/queues.html#message_acknowledgements)
- 
-This way even if something crashes in the middle of handling the event - event stays in the queue
+## Installation
+```bash
+docker-compose up -d # TODO: copy docker-compose.yml to the repository
+bundle install
+cp .env.template .env # and modify it!
+./bin/rails kafka_topics:create db:create db:migrate
+bundle exec karafka server # in a separate tab
+./bin/rails db:seed
+```
+
+## helpful scripts
+- `Support::Graphql.check`
+- `Support::Data.seed_db` (if you want to do it manually via console)
+- `Support::Data.run_cron_jobs`
 
 ## Sidekiq cron jobs, running each minute: 
 1) marks all the payments created more than 20 min ago

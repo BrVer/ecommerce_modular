@@ -1,1 +1,3 @@
-ApplicationRecord.prepare_db
+# frozen_string_literal: true
+
+Support::Data.seed_db
