@@ -16,7 +16,7 @@ end
 
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka.seed_brokers = %w[kafka://127.0.0.1:9092] # TODO: move to config
+    config.kafka.seed_brokers = ENV['KAFKA_SEED_BROKERS'].split(',')
     config.client_id = 'ecommerce_modular'
     config.logger = Rails.logger
   end
