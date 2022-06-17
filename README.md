@@ -14,7 +14,7 @@ bundle exec karafka server # in a separate tab
 ```
 
 ## helpful scripts
-- `Support::Graphql.check`
+- `UserOrders.new(2).get`
 - `Support::Data.seed_db` (if you want to do it manually via console)
 - `Support::Data.run_cron_jobs`
 
