@@ -5,7 +5,7 @@ later was replaced by Kafka, which allows to move domains to separate processes.
 
 ## Installation
 ```bash
-docker-compose up -d # TODO: copy docker-compose.yml to the repository
+docker-compose up -d
 bundle install
 cp .env.template .env # and modify it!
 ./bin/rails kafka_topics:create db:create db:migrate
