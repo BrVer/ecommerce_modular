@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 require:
   - rubocop-rails
   - rubocop-rspec
@@ -8,9 +10,14 @@ AllCops:
     - 'vendor/**/*'
     - '.git/**/*'
     - bin/*
+    - app/controllers/graphql_controller.rb
+    - app/graphql/sources/active_record_object.rb
+    - config/puma.rb
+    - config/initializers/devise.rb
     - db/*schema.rb
     - db/**/*_create_versions.rb
     - spec/spec_helper.rb
+    - spec/rails_helper.rb
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -23,6 +30,16 @@ RSpec/ExampleLength:
     - spec/acceptance/*
 Style/Documentation:
   Enabled: false
+Style/ClassAndModuleChildren:
+  Exclude:
+    - app/controllers/users/registrations_controller.rb
+    - app/controllers/users/sessions_controller.rb
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/GlobalStdStream:
+  Exclude:
+    - config/environments/production.rb
+    -
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
 Style/StringLiterals:
@@ -31,5 +48,4 @@ Style/StringLiterals:
     - config.ru
     - config/application.rb
     - config/boot.rb
-    - config/puma.rb
     - spec/rails_helper.rb

@@ -3,7 +3,7 @@
 module Support
   class Data
     class << self
-      def seed_db
+      def seed_db # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         truncate_data
 
         User.establish_connection # a hack to fix a bug after truncation
@@ -31,7 +31,8 @@ module Support
 
         order6_shipment_cancelled = submit_order(user2.id, moderate_request)
         ensure_appropriate_state
-        authorize_order_payment(order6_shipment_cancelled, authorization_expires_in: 5.seconds) # TODO: check that user_id == order.user_id
+        # TODO: check that user_id == order.user_id
+        authorize_order_payment(order6_shipment_cancelled, authorization_expires_in: 5.seconds)
 
         order7_shipment_failed = submit_order(user2.id, moderate_request)
         ensure_appropriate_state

@@ -6,7 +6,7 @@ module Tasks
 
     KAFKA_TOPICS = %w[orders payments inventory].freeze
 
-    def initialize
+    def initialize # rubocop:disable Metrics/MethodLength
       namespace :kafka_topics do
         task reset: :environment do
           reset_kafka_topics

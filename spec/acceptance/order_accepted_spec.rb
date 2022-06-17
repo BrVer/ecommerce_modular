@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'order accepted' do
+RSpec.describe 'order accepted' do # rubocop:disable RSpec/MultipleMemoizedHelpers
   let(:product1) { register_product(name: 'product1', price: 12) }
   let(:product2) { register_product(name: 'product2', price: 23) }
   let!(:product3) { register_product(name: 'product3', price: 34) }
