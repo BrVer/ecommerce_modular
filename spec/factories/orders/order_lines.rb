@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :orders_order_line, class: 'Orders::OrderLine' do
     orders_order { nil }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :orders_contact_info, class: 'Orders::ContactInfo' do
     orders_order { nil }

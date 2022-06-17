@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :payments_credit_card_payment, class: 'Payments::CreditCardPayment' do
     orders_order { nil }

@@ -35,11 +35,11 @@ Style/ClassAndModuleChildren:
     - app/controllers/users/registrations_controller.rb
     - app/controllers/users/sessions_controller.rb
 Style/FrozenStringLiteralComment:
-  Enabled: false
+  Exclude:
+    - db/*migrate/*
 Style/GlobalStdStream:
   Exclude:
     - config/environments/production.rb
-    -
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
 Style/StringLiterals:
