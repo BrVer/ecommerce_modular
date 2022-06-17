@@ -19,6 +19,7 @@ class ActiveSupportSubscriptionAttacher
   def attach(subscription, event_domain, event_name)
     ActiveSupport::Notifications.subscribe("#{event_domain}.#{event_name}") do |name, _start, _finish, _id, payload|
       method = name.tr('.', '_')
+      payload.deep_stringify_keys! if payload.respond_to?(:deep_stringify_keys!) # this unifies the format between ActiveSupport and Kafka events
       subscription.send(method, payload)
     end
   end

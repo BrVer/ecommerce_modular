@@ -26,6 +26,7 @@ gem 'karafka'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry-byebug'
   gem 'rspec-rails', '~> 5.1.2'
   gem 'factory_bot_rails'
   gem 'rubocop', require: false
@@ -35,7 +36,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'pry-byebug'
   gem 'aasm-diagram', require: false
 end
 
