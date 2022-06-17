@@ -23,5 +23,4 @@ class Sources::ActiveRecordObject < GraphQL::Dataloader::Source
       records.select { |r| r.public_send(@by_integer_field).to_i == value.to_i }
     end
   end
-
 end

@@ -12,7 +12,7 @@ RSpec.describe 'order cancelled' do
 
   before do
     submit_order(order)
-    travel_to(Time.zone.now + 21.minutes) { Payments::Workers::CheckAbandonedPayments.new.perform }
+    travel_to(21.minutes.from_now) { Payments::Workers::CheckAbandonedPayments.new.perform }
   end
 
   it 'works properly', :aggregate_failures do

@@ -7,11 +7,11 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :order, OrderType, description: "Find an order by ID" do
+    field :order, OrderType, description: 'Find an order by ID' do
       argument :id, ID
     end
 
-    field :orders, [OrderType], description: "Find orders of a specific user" do
+    field :orders, [OrderType], description: 'Find orders of a specific user' do
       argument :user_id, ID
     end
 

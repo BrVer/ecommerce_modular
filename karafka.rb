@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 ENV['RAILS_ENV'] ||= 'development'
-ENV['KARAFKA_ENV'] = ENV['RAILS_ENV']
-require ::File.expand_path('../config/environment', __FILE__)
+ENV['KARAFKA_ENV'] = ENV.fetch('RAILS_ENV', nil)
+require ::File.expand_path('config/environment', __dir__)
 Rails.application.eager_load!
 
 # This lines will make Karafka print to stdout like puma or unicorn

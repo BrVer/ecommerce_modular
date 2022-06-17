@@ -10,7 +10,7 @@ end
 
 def provide_info(order)
   ::Orders::ProvideContactInfo::Action.call(order.id,
-                                            phone: "+37544#{rand(10000000).to_s}",
+                                            phone: "+37544#{rand(10_000_000)}",
                                             email: "email#{order.id}@gmail.com")
   ::Orders::ProvideShippingInfo::Action.call(order.id,
                                              shipping_address: "address #{order.id}",

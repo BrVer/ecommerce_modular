@@ -1,10 +1,16 @@
 require:
   - rubocop-rails
   - rubocop-rspec
-Style/Documentation:
-  Enabled: false
 AllCops:
   NewCops: enable
+  Exclude:
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - '.git/**/*'
+    - bin/*
+    - db/*schema.rb
+    - db/**/*_create_versions.rb
+    - spec/spec_helper.rb
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -15,3 +21,15 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Exclude:
     - spec/acceptance/*
+Style/Documentation:
+  Enabled: false
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+Style/StringLiterals:
+  Exclude:
+    - Rakefile
+    - config.ru
+    - config/application.rb
+    - config/boot.rb
+    - config/puma.rb
+    - spec/rails_helper.rb

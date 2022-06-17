@@ -13,7 +13,7 @@ RSpec.describe 'order shipment cancelled' do
   before do
     submit_order(order)
     authorize_order_payment(order)
-    travel_to(Time.zone.now + 6.days) { Payments::Workers::ExpireAuthorizations.new.perform }
+    travel_to(6.days.from_now) { Payments::Workers::ExpireAuthorizations.new.perform }
   end
 
   it 'works properly', :aggregate_failures do

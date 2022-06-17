@@ -41,7 +41,6 @@ module Tasks
                                   num_partitions: 3, replication_factor: 1, config: { 'retention.ms' => 2_419_200_000 })
       end
     end
-
   end
 end
 

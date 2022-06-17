@@ -8,7 +8,7 @@ class CreateCreditCardPayments < ActiveRecord::Migration[7.0]
       t.string :transaction_identifier
       t.datetime :authorization_expires_at
 
-      t.index [:state, :authorization_expires_at], name: :index_ccp_on_state_and_authorization_expires_at
+      t.index %i[state authorization_expires_at], name: :index_ccp_on_state_and_authorization_expires_at
 
       t.timestamps
     end

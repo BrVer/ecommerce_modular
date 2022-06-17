@@ -6,7 +6,7 @@ module Support
       def seed_db
         truncate_data
 
-        User.establish_connection # hack to fix a bug after truncation
+        User.establish_connection # a hack to fix a bug after truncation
         user1 = User.create(email: 'user1@gmail.com', password: 'password1')
         user2 = User.create(email: 'user2@gmail.com', password: 'password2')
 
@@ -77,7 +77,7 @@ module Support
 
       def provide_info(order_id)
         ::Orders::ProvideContactInfo::Action.call(order_id,
-                                                  phone: "+37544#{rand(10000000).to_s}",
+                                                  phone: "+37544#{rand(10_000_000)}",
                                                   email: "email#{order_id}@gmail.com")
         ::Orders::ProvideShippingInfo::Action.call(order_id,
                                                    shipping_address: "address #{order_id}",
